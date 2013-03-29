@@ -44,6 +44,7 @@ window.onload = function () {
     soundfontUrl: "./midi.js/soundfont/",
     instrument: "acoustic_grand_piano",
     callback: function() {
+      currentTime = 1;				  
       window.setInterval(function() { 
         play(currentTime); 
         currentTime += 1; 

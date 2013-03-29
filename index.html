@@ -31,8 +31,8 @@ window.onload = function () {
   window.play = function(n) {
     var notes = $("td.active:nth-child("+n+")").map(function() { return $(this).parent().data("note"); });
     for( var i=0; i<notes.length; ++i ) {
-      MIDI.noteOn(0, note, 127, 0);
-      MIDI.noteOff(0, note, 127, 0.75);
+      MIDI.noteOn(0, notes[i], 127, 0);
+      MIDI.noteOff(0, notes[i], 127, 0.75);
     }
   };
   $("table td").click(function() {

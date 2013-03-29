@@ -28,7 +28,7 @@
 <script type="text/javascript">
 
 window.onload = function () {
-  function play(n) {
+  window.play = function(n) {
     var notes = $("td.active:nth-child("+n+")").map(function() { return $(this).parent().data("note"); });
     for( var i=0; i<notes.length; ++i ) {
       MIDI.noteOn(0, note, 127, 0);

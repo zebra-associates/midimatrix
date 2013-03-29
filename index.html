@@ -28,6 +28,13 @@
 <script type="text/javascript">
 
 window.onload = function () {
+  function play(n) {
+    var notes = $("td.active:nth-child("+n+")").map(function() { return $(this).parent().data("note"); });
+    for( var i=0; i<notes.length; ++i ) {
+      MIDI.noteOn(0, note, 127, 0);
+      MIDI.noteOff(0, note, 127, 0.75);
+    }
+  };
   $("table td").click(function() {
     $(this).toggleClass("active");
   });
@@ -35,16 +42,7 @@ window.onload = function () {
     soundfontUrl: "./midi.js/soundfont/",
     instrument: "acoustic_grand_piano",
     callback: function() {
-      var delay = 0; // play one note every quarter second
-      var note = 50; // the MIDI note
-      var velocity = 127; // how hard the note hits
-  
-      for( var i = 0; i<10; ++i ) {
-        MIDI.setVolume(0, 127);
-
-        MIDI.noteOn(0, note + (i*10), velocity, delay);
-        MIDI.noteOff(0, note + (i*10), delay + 0.75);
-      }
+      return;
     }
   });
 };

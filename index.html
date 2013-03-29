@@ -36,29 +36,34 @@
 <script type="text/javascript">
 
 window.onload = function () {
+  window.getSpeed = function() {
+    return parseFloat($("#speed").val());
+  };
   window.play = function(n) {
     var notes = $("td.active:nth-child("+n+")").map(function() { return $(this).parent().data("note"); });
     for( var i=0; i<notes.length; ++i ) {
       MIDI.noteOn(0, notes[i], 127, 0);
-      MIDI.noteOff(0, notes[i], 127, 0.75);
+      MIDI.noteOff(0, notes[i], 127, getSpeed());
     }
   };
   $("table td").click(function() {
     $(this).toggleClass("active");
   });
-  MIDI.loadPlugin({
-    soundfontUrl: "./midi.js/soundfont/",
-    instrument: "acoustic_grand_piano",
-    callback: function() {
-      currentTime = 1;				  
-      window.setInterval(function() { 
+  window.tick = function() { 
         $("td").removeClass("playing");
         $("td:nth-child("+currentTime+")").addClass("playing");
         play(currentTime); 
         currentTime += 1; 
         if( currentTime > 10 ) currentTime = 1;
-      }, 1500);
-    }
+        window.setTimeout(tick, getSpeed());
+  };
+  MIDI.loadPlugin({
+    soundfontUrl: "./midi.js/soundfont/",
+    instrument: "acoustic_grand_piano",
+    callback: function() {
+      currentTime = 1;				  
+      window.setTimeout(tick, getSpeed());
+    },
   });
 };
 
@@ -223,5 +228,9 @@ window.onload = function () {
   </tr>
 
 </table>
+
+<div style="float: right">
+  <label for="speed">Speed: <input id="speed" value="0.75"></label>
+</div>
 </body>
 </html>
